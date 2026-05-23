@@ -1,0 +1,4 @@
+version: 1
+agent:
+  short_description: "Run an AI paper PDF-folder workflow that produces a survey-style standalone HTML report."
+  default_prompt: "Use $pdf-directory-analysis on the specified AI technical-paper PDF directory. Extract local evidence, build per-paper reading notes, synthesize a survey-style review, and render paper_series_report.html as the output of the skill run."

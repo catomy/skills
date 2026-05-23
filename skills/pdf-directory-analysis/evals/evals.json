@@ -1,0 +1,53 @@
+{
+  "skill_name": "pdf-directory-analysis",
+  "evals": [
+    {
+      "id": 1,
+      "name": "multi_paper_ai_technical_reports",
+      "prompt": "Use the pdf-directory-analysis skill on a folder containing several AI model technical report PDFs. Produce a Chinese standalone HTML survey with one overview tab and one tab per paper. The overview should compare technical routes, consensus, disagreements, trends, and reader recommendations.",
+      "expected_output": "The run extracts local evidence, writes substantive per-paper notes before the overview, renders paper_series_report.html, and passes validate_report.py. The HTML has overview navigation, no internal evidence IDs, and the number of paper tabs matches the PDF count.",
+      "files": [],
+      "assertions": [
+        "HTML contains one overview tab plus one tab per scanned PDF.",
+        "Every paper page contains 背景与定位, 问题与挑战, 解决方案, 关键图表, and 下一步计划.",
+        "The final Markdown and HTML contain no text:, table:, or image: evidence IDs.",
+        "The overview compares papers instead of listing extracted assets."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "single_paper_deep_reading_note",
+      "prompt": "Analyze a directory with one AI architecture paper PDF and generate the HTML report. Keep the paper page detailed enough that I can decide what to read, reproduce, or investigate next.",
+      "expected_output": "The report still uses the overview-plus-paper tab layout even for one PDF. The paper tab follows the paper's original structure in simplified form and includes concrete reading, reproduction, research, and engineering next steps.",
+      "files": [],
+      "assertions": [
+        "The HTML has exactly two top-level tabs when the manifest contains one document.",
+        "The paper page has at least the configured minimum Chinese character count unless extraction is explicitly weak.",
+        "The next-step plan includes reading, reproduction, research, and engineering follow-up."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "missing_caption_or_decorative_images",
+      "prompt": "Run the skill on AI papers where some extracted images are covers, logos, author blocks, or figures without reliable captions. Do not invent captions.",
+      "expected_output": "The report includes only figures that directly explain architecture, method flow, system design, training/inference pipeline, or key experimental setup. Images without recoverable original captions are skipped or explicitly marked as not extractable instead of being renamed generically.",
+      "files": [],
+      "assertions": [
+        "No retained figure uses a filename as its caption.",
+        "No retained figure has a generic caption such as 论文附图, 架构图, 流程图, or 方案图.",
+        "All Markdown image paths resolve from the output directory."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "near_miss_non_ai_pdf_folder",
+      "prompt": "I have a folder of random invoices and product brochures as PDFs. Can you turn it into a literature review style AI technical paper report?",
+      "expected_output": "The skill should not force an AI technical-paper synthesis when the PDFs are not AI research papers. It should explain the mismatch and ask whether to proceed with a different PDF extraction or document-summary workflow.",
+      "files": [],
+      "assertions": [
+        "The response identifies that the folder is not an AI technical-paper set.",
+        "The response does not fabricate research-paper sections or AI technical claims from non-research PDFs."
+      ]
+    }
+  ]
+}
